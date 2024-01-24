@@ -1,0 +1,50 @@
+﻿@using StudentAssesment.Models.Student;
+
+@model PagInatedList<Student>;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="my-5">Data Penilaian Mahasiswa</h1>
+
+<a type="button" class="btn btn-outline-primary mt-3" asp-controller="Students" asp-action="Add">Tambah Data</a>
+
+<table class="table table-responsive-sm table-bordered table-striped mt-3 text-center">
+    <thead class="bg-primary bg-gradient text-white">
+        <tr>
+            <th scope="col">NIM</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Nilai</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NIM</td>
+                <td>@item.Nama</td>
+                <td>@item.Nilai</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" href="Students/Detail/@item.Id">Detail</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="Students/Edit/@item.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation">
+    @{
+        var prevDisabled = !Model.PreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.NextPage ? "disabled" : "";
+    }
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a></li>
+        @* <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li> *@
+        <li class="page-item"><a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a></li>
+    </ul>
+</nav>
